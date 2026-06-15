@@ -25,16 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // حارس الأمان الذكي: التحقق الصارم من صلاحية الدخول ومنع النموذج الافتراضي
     const currentPath = window.location.pathname;
     const isAuthPage = currentPath.includes('auth.html');
-
-    auth.onAuthStateChanged((user) => {
+auth.onAuthStateChanged((user) => {
         if (!user && !isAuthPage) {
-            // إذا لم يسجل دخول وكان في الصفحة الرئيسية أو التقويم، يطرد فوراً لصفحة التسجيل
             window.location.href = 'auth.html';
             return;
         }
 
         if (user && isAuthPage) {
-            // إذا كان مسجل دخول وحاول يفتح صفحة التسجيل، ينقل للوحة التحكم
             window.location.href = 'index.html';
             return;
         }
@@ -48,10 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (displayUserEl) displayUserEl.textContent = username;
             if (avatarEl) avatarEl.textContent = username.charAt(0).toUpperCase();
 
-            // جلب المهام السحابية الخاصة بالمستخدم الحالي
             fetchUserTasks(user.uid);
         }
     });
+ 
 
     // تشغيل وظائف المنظومة التفاعلية الأساسية
     initDarkMode();
