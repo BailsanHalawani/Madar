@@ -1,41 +1,26 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>مدار - إدارة المهام</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+<html lang="ar" dir="rtl"><head><link rel="stylesheet" href="style.css"></head>
 <body class="hidden-app">
     <div class="app-container">
         <aside class="sidebar">
-            <h2>تطبيق مَدار</h2>
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-item">📊 نظرة عامة</a>
-                <a href="tasks.html" class="nav-item active">📝 المهام</a>
-                <a href="calendar.html" class="nav-item">📅 التقويم</a>
-                <a href="settings.html" class="nav-item">⚙️ الإعدادات</a>
-            </nav>
+            <h2>تطبيق مدار</h2>
+            <a href="index.html" class="nav-item">📊 نظرة عامة</a>
+            <a href="tasks.html" class="nav-item active">📝 إدارة المهام</a>
+            <a href="calendar.html" class="nav-item">📅 التقويم</a>
+            <a href="settings.html" class="nav-item">⚙️ الإعدادات</a>
         </aside>
         <main class="main-content">
             <h1>إضافة مهمة جديدة</h1>
-            <section class="form-container">
-                <form id="taskForm">
-                    <input type="text" id="taskName" placeholder="اسم المهمة" required>
-                    <textarea id="taskDesc" placeholder="تفاصيل المهمة..."></textarea>
-                    <input type="date" id="taskDate" required>
-                    <select id="taskPriority">
-                        <option value="high">أولوية عالية</option>
-                        <option value="medium">أولوية متوسطة</option>
-                        <option value="low">أولوية منخفضة</option>
-                    </select>
-                    <button type="submit" class="btn-submit">حفظ المهمة</button>
-                </form>
-            </section>
+            <form id="taskForm">
+                <input type="text" id="taskName" placeholder="اسم المهمة" required>
+                <textarea id="taskDesc" placeholder="الوصف"></textarea>
+                <input type="date" id="taskDate" required>
+                <button type="submit">حفظ المهمة</button>
+            </form>
         </main>
     </div>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="script.js"></script>
-</body>
-</html>
+</body></html>
