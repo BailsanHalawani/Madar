@@ -1,49 +1,63 @@
 /* ==========================================================================
-   تطبيق مَدار (Madar) - ملف البرمجة المطور لمنظومة المستخدمين (script.js)
+   تطبيق مَدار (Madar) - ملف البرمجة السحابي المطور (Firebase Web App)
    ========================================================================== */
 
+// 1. تهيئة الـ Firebase باستخدام بيانات مشروعكِ السحابي الخاص
+const firebaseConfig = {
+  apiKey: "AIzaSyC-s5C1yZwaECir8Hn8c3OrARaDbR6EJho",
+  authDomain: "madar-f660d.firebaseapp.com",
+  projectId: "madar-f660d",
+  storageBucket: "madar-f660d.firebasestorage.app",
+  messagingSenderId: "959260592107",
+  appId: "1:959260592107:web:01bb9985ba0a8963b37bae"
+};
+
+// تشغيل الخدمات سحابياً
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// مصفوفة محلية مؤقتة لعرض المهام داخل واجهات المستخدم الحالية
+let tasks = [];
+
 document.addEventListener('DOMContentLoaded', () => {
-    // جلب بيانات منظومة الحسابات والمستخدم الحالي
-    let users = JSON.parse(localStorage.getItem('madar_users')) || [];
-    let currentUser = JSON.parse(localStorage.getItem('madar_current_user')) || null;
-    
-    // التحقق من صلاحية الدخول وحماية الصفحات الداخلية
+
+    // التحقق من صلاحية الدخول وحماية الصفحات الداخلية سحابياً
     const isAuthPage = window.location.pathname.includes('auth.html');
-    
-    if (!currentUser && !isAuthPage) {
-        // إذا لم يسجل دخوله وهو في صفحة داخلية، يتم نقله فوراً لصفحة الدخول
-        window.location.href = 'auth.html';
-        return;
-    }
 
-    // إذا كان مسجل دخول ويحاول فتح صفحة الدخول، يتم نقله للرئيسية
-    if (currentUser && isAuthPage) {
-        window.location.href = 'index.html';
-        return;
-    }
+    auth.onAuthStateChanged((user) => {
+        if (!user && !isAuthPage) {
+            window.location.href = 'auth.html';
+            return;
+        }
 
-    // عرض بيانات المستخدم الحالي في القائمة الجانبية ديناميكياً
-    if (currentUser) {
-        const displayUserEl = document.getElementById('displayUsername');
-        const avatarEl = document.getElementById('userAvatar');
-        if (displayUserEl) displayUserEl.textContent = currentUser.username;
-        if (avatarEl) avatarEl.textContent = currentUser.username.charAt(0).toUpperCase();
-    }
+        if (user && isAuthPage) {
+            window.location.href = 'index.html';
+            return;
+        }
 
-    // تصفية جلب المهام لتكون خاصة بالمستخدم الحالي فقط
-    let allTasks = JSON.parse(localStorage.getItem('madar_tasks')) || [];
-    let tasks = currentUser ? allTasks.filter(t => t.userEmail === currentUser.email) : [];
+        if (user) {
+            const displayUserEl = document.getElementById('displayUsername');
+            const avatarEl = document.getElementById('userAvatar');
+            
+            const username = user.displayName || user.email.split('@')[0];
+            
+            if (displayUserEl) displayUserEl.textContent = username;
+            if (avatarEl) avatarEl.textContent = username.charAt(0).toUpperCase();
 
-    // تشغيل وظائف المنظومة التفاعلية
+            // جلب المهام الخاصة بهذا المستخدم فقط من قاعدة البيانات السحابية (Firestore)
+            fetchUserTasks(user.uid);
+        }
+    });
+
+    // تشغيل وظائف المنظومة التفاعلية الأساسية
     initDarkMode();
     if (isAuthPage) initAuthSystem();
     if (document.getElementById('taskForm')) initTaskForm();
-    if (document.getElementById('taskTableBody')) initCalendarTable();
-    if (document.querySelector('.stats-grid')) initDashboardStats();
     if (document.getElementById('clearDataBtn')) initSettings();
 
     // ==========================================================================
-    // 🔑 برمجة نظام تسجيل الدخول والحسابات الجديد (Auth System)
+    // 🔑 أولاً: منظومة الحسابات السحابية (تسجيل ودخول)
     // ==========================================================================
     function initAuthSystem() {
         const authForm = document.getElementById('authForm');
@@ -57,113 +71,123 @@ document.addEventListener('DOMContentLoaded', () => {
         const switchAuthLink = document.getElementById('switchAuthLink');
         const toggleAuthText = document.getElementById('toggleAuthText');
 
-        let isLoginMode = true; // وضع الدخول الافتراضي
+        let isLoginMode = true;
 
-        // التبديل بين وضع تسجيل الدخول ووضع حساب جديد
-        switchAuthLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            isLoginMode = !isLoginMode;
-
-            if (isLoginMode) {
-                authTitle.textContent = 'تسجيل الدخول إلى مَدار';
-                authSubtitle.textContent = 'مرحباً بكِ مجدداً! يرجى إدخال بياناتك لمتابعة مهامك.';
-                usernameGroup.style.display = 'none';
-                regUsernameInput.required = false;
-                authBtn.textContent = 'دخول';
-                toggleAuthText.innerHTML = `ليس لديكِ حساب؟ <a href="#" id="switchAuthLink">إنشاء حساب جديد</a>`;
-            } else {
-                authTitle.textContent = 'إنشاء حساب في مَدار';
-                authSubtitle.textContent = 'انضمي إلينا وابدأي بتنظيم مهامك ومشاريعك اليوم بكل سهولة.';
-                usernameGroup.style.display = 'flex';
-                regUsernameInput.required = true;
-                authBtn.textContent = 'تسجيل الحساب الجديد';
-                toggleAuthText.innerHTML = `لديكِ حساب بالفعل؟ <a href="#" id="switchAuthLink">تسجيل الدخول</a>`;
-            }
-            // إعادة ربط الحدث للرابط الجديد بعد إعادة بناء النص
-            initAuthToggleLink();
-        });
-
-        function initAuthToggleLink() {
-            document.getElementById('switchAuthLink').addEventListener('click', (e) => {
+        if (switchAuthLink) {
+            switchAuthLink.addEventListener('click', function handleSwitch(e) {
                 e.preventDefault();
-                switchAuthLink.click();
+                isLoginMode = !isLoginMode;
+
+                if (isLoginMode) {
+                    authTitle.textContent = 'تسجيل الدخول إلى مَدار';
+                    authSubtitle.textContent = 'مرحباً بكِ مجدداً! يرجى إدخال بياناتك لمتابعة مهامك.';
+                    usernameGroup.style.display = 'none';
+                    regUsernameInput.required = false;
+                    authBtn.textContent = 'دخول';
+                    toggleAuthText.innerHTML = `ليس لديكِ حساب؟ <a href="#" id="switchAuthLink">إنشاء حساب جديد</a>`;
+                } else {
+                    authTitle.textContent = 'إنشاء حساب في مَدار';
+                    authSubtitle.textContent = 'انضمي إلينا وابدأي بتنظيم مهامك ومشاريعك اليوم بكل سهولة.';
+                    usernameGroup.style.display = 'flex';
+                    regUsernameInput.required = true;
+                    authBtn.textContent = 'تسجيل الحساب الجديد';
+                    toggleAuthText.innerHTML = `لديكِ حساب بالفعل؟ <a href="#" id="switchAuthLink">تسجيل الدخول</a>`;
+                }
+                document.getElementById('switchAuthLink').addEventListener('click', handleSwitch);
             });
         }
 
-        // معالجة إرسال النموذج (Form Submit)
-        authForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = authEmailInput.value.trim().toLowerCase();
-            const password = authPasswordInput.value;
+        if (authForm) {
+            authForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = authEmailInput.value.trim().toLowerCase();
+                const password = authPasswordInput.value;
 
-            if (isLoginMode) {
-                // عملية تسجيل الدخول
-                const user = users.find(u => u.email === email && u.password === password);
-                if (user) {
-                    localStorage.setItem('madar_current_user', JSON.stringify(user));
-                    window.location.href = 'index.html';
+                if (isLoginMode) {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .then(() => {
+                            window.location.href = 'index.html';
+                        })
+                        .catch((error) => {
+                            alert('❌ خطأ في تسجيل الدخول: ' + error.message);
+                        });
                 } else {
-                    alert('❌ خطأ في البريد الإلكتروني أو كلمة المرور، يرجى المحاولة مرة أخرى.');
+                    const username = regUsernameInput.value.trim();
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            return userCredential.user.updateProfile({
+                                displayName: username
+                            });
+                        })
+                        .then(() => {
+                            alert('✨ أهلاً بكِ في مَدار! تم إنشاء حسابكِ السحابي بنجاح.');
+                            window.location.href = 'index.html';
+                        })
+                        .catch((error) => {
+                            alert('❌ خطأ في إنشاء الحساب: ' + error.message);
+                        });
                 }
-            } else {
-                // عملية إنشاء حساب جديد
-                const username = regUsernameInput.value.trim();
-                const userExists = users.some(u => u.email === email);
-
-                if (userExists) {
-                    alert('❌ هذا البريد الإلكتروني مسجل بالفعل! يرجى الدخول مباشرة.');
-                    return;
-                }
-
-                const newUser = {
-                    username: username,
-                    email: email,
-                    password: password // في التطبيقات المتقدمة يتم تشفيرها
-                };
-
-                users.push(newUser);
-                localStorage.setItem('madar_users', JSON.stringify(users));
-                localStorage.setItem('madar_current_user', JSON.stringify(newUser));
-                
-                alert('✨ أهلاً بكِ في مَدار! تم إنشاء حسابكِ بنجاح.');
-                window.location.href = 'index.html';
-            }
-        });
+            });
+        }
     }
 
     // ==========================================================================
-    // وظيفة حفظ المهام (tasks.html) مرتبطة بحساب المستخدم
+    // 📡 ثانياً: جلب وحفظ المهام سحابياً (Firestore)
     // ==========================================================================
+    function fetchUserTasks(userId) {
+        db.collection('tasks').where('userId', '==', userId)
+        .get()
+        .then((querySnapshot) => {
+            tasks = [];
+            querySnapshot.forEach((doc) => {
+                let taskData = doc.data();
+                taskData.id = doc.id;
+                tasks.push(taskData);
+            });
+            
+            if (document.getElementById('taskTableBody')) initCalendarTable();
+            if (document.querySelector('.stats-grid')) initDashboardStats();
+        })
+        .catch((error) => {
+            console.error("خطأ أثناء جلب المهام السحابية: ", error);
+        });
+    }
+
     function initTaskForm() {
         const taskForm = document.getElementById('taskForm');
         taskForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            const user = auth.currentUser;
+
+            if (!user) return;
 
             const newTask = {
-                id: 'task_' + Date.now(),
-                userEmail: currentUser.email, // ربط المهمة بحسابك الحالي
+                userId: user.uid,
                 name: document.getElementById('taskName').value.trim(),
                 desc: document.getElementById('taskDesc').value.trim() || 'لا توجد ملاحظات إضافية.',
                 date: document.getElementById('taskDate').value,
                 priority: document.getElementById('taskPriority').value,
-                status: 'pending'
+                status: 'pending',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            allTasks.push(newTask);
-            localStorage.setItem('madar_tasks', JSON.stringify(allTasks));
-
-            alert('✨ تم حفظ المهمة في حسابكِ الخاص بنجاح!');
-            window.location.href = 'calendar.html';
+            db.collection('tasks').add(newTask)
+                .then(() => {
+                    alert('✨ تم حفظ المهمة سحابياً في حسابكِ الخاص بنجاح!');
+                    window.location.href = 'calendar.html';
+                })
+                .catch((error) => {
+                    alert('❌ خطأ أثناء حفظ المهمة: ' + error.message);
+                });
         });
     }
 
-    // ==========================================================================
-    // وظيفة عرض التقويم والمستندات (calendar.html)
-    // ==========================================================================
     function initCalendarTable() {
         const tableBody = document.getElementById('taskTableBody');
+        if (!tableBody) return;
+
         if (tasks.length === 0) {
-            tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 30px; color: #8a7667;">📭 حسابكِ خالٍ من المهام حالياً. قومي بإضافة مهمتكِ الأولى!</td></tr>`;
+            tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 30px; color: #8a7667;">📭 حسابكِ السحابي خالٍ من المهام حالياً. قومي بإضافة مهمتكِ الأولى!</td></tr>`;
             return;
         }
 
@@ -195,26 +219,28 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!id) return;
 
             if (target.classList.contains('delete-btn')) {
-                if (confirm('حذف هذه المهمة نهائياً من حسابكِ؟')) {
-                    allTasks = allTasks.filter(t => t.id !== id);
-                    localStorage.setItem('madar_tasks', JSON.stringify(allTasks));
-                    window.location.reload();
+                if (confirm('حذف هذه المهمة نهائياً من حسابكِ السحابي؟')) {
+                    db.collection('tasks').doc(id).delete()
+                        .then(() => {
+                            window.location.reload();
+                        });
                 }
             }
             if (target.classList.contains('complete-btn')) {
-                const idx = allTasks.findIndex(t => t.id === id);
-                if (idx > -1) {
-                    allTasks[idx].status = allTasks[idx].status === 'completed' ? 'pending' : 'completed';
-                    localStorage.setItem('madar_tasks', JSON.stringify(allTasks));
-                    window.location.reload();
+                const currentTask = tasks.find(t => t.id === id);
+                if (currentTask) {
+                    const newStatus = currentTask.status === 'completed' ? 'pending' : 'completed';
+                    db.collection('tasks').doc(id).update({
+                        status: newStatus
+                    })
+                    .then(() => {
+                        window.location.reload();
+                    });
                 }
             }
         };
     }
 
-    // ==========================================================================
-    // وظيفة الإحصائيات (index.html)
-    // ==========================================================================
     function initDashboardStats() {
         if (document.querySelector('.total .stat-number')) {
             document.querySelector('.total .stat-number').textContent = tasks.length;
@@ -242,17 +268,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // وظيفة الإعدادات وتسجيل الخروج (settings.html)
+    // ⚙️ ثالثاً: الإعدادات وتسجيل الخروج الآمن (settings.html)
     // ==========================================================================
     function initSettings() {
-        // إضافة خيار تسجيل الخروج ديناميكياً لحماية الحساب
         const settingsCard = document.querySelector('.settings-card');
+        if (!settingsCard) return;
+
         const logoutRow = document.createElement('div');
         logoutRow.className = 'setting-row';
         logoutRow.innerHTML = `
             <div class="setting-info">
                 <h3>تسجيل الخروج</h3>
-                <p>الخروج الآمن من حسابكِ الحالي لحماية بياناتكِ ومنع الوصول إليها.</p>
+                <p>الخروج الآمن من حسابكِ الحالي لحماية بياناتكِ ومنع الوصول إليها من متصفحات أخرى.</p>
             </div>
             <div class="setting-action">
                 <button type="button" class="btn-optimize" id="logoutBtn" style="border-color: #c2593f; color: #c2593f;">خروج</button>
@@ -261,75 +288,64 @@ document.addEventListener('DOMContentLoaded', () => {
         settingsCard.insertBefore(logoutRow, document.querySelector('.danger-zone'));
 
         document.getElementById('logoutBtn').addEventListener('click', () => {
-            localStorage.removeItem('madar_current_user');
-            alert('🔒 تم تسجيل خروجكِ بنجاح من تطبيق مدار.');
-            window.location.href = 'auth.html';
+            auth.signOut().then(() => {
+                alert('🔒 تم تسجيل خروجكِ بنجاح من تطبيق مدار.');
+                window.location.href = 'auth.html';
+            });
         });
 
         document.getElementById('clearDataBtn').addEventListener('click', () => {
-            if (confirm('⚠️ هل أنتِ متأكدة من حذف مهام حسابك الحالي فقط؟')) {
-                allTasks = allTasks.filter(t => t.userEmail !== currentUser.email);
-                localStorage.setItem('madar_tasks', JSON.stringify(allTasks));
-                alert('🗑️ تم تفريغ مهام حسابكِ بنجاح.');
-                window.location.href = 'index.html';
+            if (confirm('⚠️ هل أنتِ متأكدة من حذف جميع مهام حسابكِ الحالي من السيرفر نهائياً؟')) {
+                const batch = db.batch();
+                tasks.forEach(task => {
+                    const docRef = db.collection('tasks').doc(task.id);
+                    batch.delete(docRef);
+                });
+
+                batch.commit().then(() => {
+                    alert('🗑️ تم تفريغ جميع مهامكِ من السحاب بنجاح.');
+                    window.location.href = 'index.html';
+                });
             }
         });
     }
 
+    // ==========================================================================
+    // 🌓 رابعاً: منظومة تفعيل وحفظ الوضع الداكن المتجاوبة
+    // ==========================================================================
     function initDarkMode() {
         const darkModeToggle = document.getElementById('darkModeToggle');
-        if (localStorage.getItem('madar_dark_mode') === 'enabled') document.body.classList.add('dark-version');
+        
+        if (localStorage.getItem('madar_dark_mode') === 'enabled') {
+            document.body.classList.add('dark-version');
+        }
+        
         if (darkModeToggle) {
             darkModeToggle.checked = localStorage.getItem('madar_dark_mode') === 'enabled';
             darkModeToggle.addEventListener('change', () => {
                 document.body.classList.toggle('dark-version');
-                localStorage.setItem('madar_dark_mode', darkModeToggle.checked ? 'enabled' : 'disabled');
+                if (document.body.classList.contains('dark-version')) {
+                    localStorage.setItem('madar_dark_mode', 'enabled');
+                } else {
+                    localStorage.setItem('madar_dark_mode', 'disabled');
+                }
             });
         }
     }
 });
+
 function switchPage(pageId) {
-    // إخفاء جميع الأقسام أولاً
     document.querySelectorAll('.main-content-section').forEach(section => {
         section.style.display = 'none';
     });
     
-    // إظهار القسم المطلوب بسلاسة
     const activeSection = document.getElementById(pageId);
-    activeSection.style.display = 'block';
-    
-    // إضافة تأثير ظهور تدريجي (Fade-in) إذا رغبتِ
-    activeSection.style.opacity = 0;
-    setTimeout(() => {
-        activeSection.style.transition = 'opacity 0.3s ease';
-        activeSection.style.opacity = 1;
-    }, 10);
+    if (activeSection) {
+        activeSection.style.display = 'block';
+        activeSection.style.opacity = 0;
+        setTimeout(() => {
+            activeSection.style.transition = 'opacity 0.3s ease';
+            activeSection.style.opacity = 1;
+        }, 10);
+    }
 }
-// الانتظار حتى تحميل الصفحة بالكامل لتفادي أخطاء الـ null
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. تحديد زر التبديل (تأكدي أن الـ id في الـ HTML هو theme-toggle أو عدليه هنا)
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    
-    // 2. التحقق من الاختيار المخزن مسبقاً في المتصفح وتطبيقه فوراً
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-    }
-
-    // 3. الاستماع لضغطة الزر وتبديل الوضع
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            // تبديل الـ class في الـ body
-            document.body.classList.toggle('dark-theme');
-            
-            // حفظ الخيار الحالي في الـ LocalStorage للاحتفاظ به عند الانتقال بين الصفحات
-            if (document.body.classList.contains('dark-theme')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.setItem('theme', 'light');
-            }
-        });
-    } else {
-        console.warn("تنبيه: لم يتم العثور على عنصر يحمل id='theme-toggle' في هذه الصفحة.");
-    }
-});
