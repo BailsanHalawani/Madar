@@ -2,85 +2,37 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة المهام - إضافة مهمة جديدة</title>
-    <style>
-        body { display: none; }
-    </style>
+    <title>مدار - إدارة المهام</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-
+<body class="hidden-app">
     <div class="app-container">
         <aside class="sidebar">
-            <div class="logo-section">
-                <h2>إدارة المهام</h2>
-            </div>
+            <h2>تطبيق مَدار</h2>
             <nav class="nav-menu">
-                <a href="index.html" class="nav-item">
-                    <span class="icon">📊</span> نظرة عامة
-                </a>
-                <a href="tasks.html" class="nav-item active">
-                    <span class="icon">📝</span> إدارة المهام
-                </a>
-                <a href="calendar.html" class="nav-item">
-                    <span class="icon">📅</span> التقويم
-                </a>
-                <a href="settings.html" class="nav-item">
-                    <span class="icon">⚙️</span> الإعدادات
-                </a>
+                <a href="index.html" class="nav-item">📊 نظرة عامة</a>
+                <a href="tasks.html" class="nav-item active">📝 المهام</a>
+                <a href="calendar.html" class="nav-item">📅 التقويم</a>
+                <a href="settings.html" class="nav-item">⚙️ الإعدادات</a>
             </nav>
-            <div class="user-profile">
-                <div class="avatar" id="userAvatar">M</div>
-                <div class="username" id="displayUsername">جاري التحميل...</div>
-            </div>
         </aside>
-
         <main class="main-content">
-            <header class="main-header">
-                <div class="welcome-text">
-                    <h1>إضافة مهمة جديدة إلى جدولك</h1>
-                    <p>قم بتنظيم وقتك عبر إدخال مهامك وتحديد أولوياتها بدقة.</p>
-                </div>
-            </header>
-
+            <h1>إضافة مهمة جديدة</h1>
             <section class="form-container">
                 <form id="taskForm">
-                    <div class="form-group">
-                        <label for="taskName">اسم المهمة</label>
-                        <input type="text" id="taskName" placeholder="مثال: برمجة جافا سكريبت" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="taskDesc">الوصف</label>
-                        <textarea id="taskDesc" rows="4" placeholder="اكتب تفاصيل وملاحظات المهمة هنا..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="taskDate">تاريخ التسليم</label>
-                        <input type="date" id="taskDate" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="taskPriority">مستوى الأولوية</label>
-                        <select id="taskPriority" required>
-                            <option value="high">أولوية عالية</option>
-                            <option value="medium">أولوية متوسطة</option>
-                            <option value="low">أولوية منخفضة</option>
-                        </select>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn-submit">حفظ المهمة وتحديث اللوحة</button>
-                    </div>
+                    <input type="text" id="taskName" placeholder="اسم المهمة" required>
+                    <textarea id="taskDesc" placeholder="تفاصيل المهمة..."></textarea>
+                    <input type="date" id="taskDate" required>
+                    <select id="taskPriority">
+                        <option value="high">أولوية عالية</option>
+                        <option value="medium">أولوية متوسطة</option>
+                        <option value="low">أولوية منخفضة</option>
+                    </select>
+                    <button type="submit" class="btn-submit">حفظ المهمة</button>
                 </form>
             </section>
         </main>
     </div>
-
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
