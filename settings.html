@@ -2,105 +2,43 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق مدار - الإعدادات</title>
-    <style>
-        body { display: none; }
-    </style>
+    <title>مدار - الإعدادات</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-
+<body class="hidden-app">
     <div class="app-container">
         <aside class="sidebar">
-            <div class="logo-section">
-                <h2>تطبيق مدار</h2>
-            </div>
+            <h2>تطبيق مَدار</h2>
             <nav class="nav-menu">
-                <a href="index.html" class="nav-item">
-                    <span class="icon">📊</span> نظرة عامة
-                </a>
-                <a href="tasks.html" class="nav-item">
-                    <span class="icon">📝</span> إدارة المهام
-                </a>
-                <a href="calendar.html" class="nav-item">
-                    <span class="icon">📅</span> التقويم
-                </a>
-                <a href="settings.html" class="nav-item active">
-                    <span class="icon">⚙️</span> الإعدادات
-                </a>
+                <a href="index.html" class="nav-item">📊 نظرة عامة</a>
+                <a href="tasks.html" class="nav-item">📝 المهام</a>
+                <a href="calendar.html" class="nav-item">📅 التقويم</a>
+                <a href="settings.html" class="nav-item active">⚙️ الإعدادات</a>
             </nav>
-            <div class="user-profile">
-                <div class="avatar" id="userAvatar">M</div>
-                <div class="username" id="displayUsername">جاري التحميل...</div>
-            </div>
         </aside>
-
         <main class="main-content">
-            <header class="main-header">
-                <div class="welcome-text">
-                    <h1>إعدادات التطبيق</h1>
-                    <p>تخصيص مظهر التطبيق، التنبيهات، وإدارة قواعد البيانات الخاصة بكِ.</p>
+            <h1>إعدادات الحساب</h1>
+            <div class="settings-card">
+                <div class="setting-row">
+                    <div>
+                        <h3>الوضع الداكن</h3>
+                        <p>تفعيل الثيم المظلم لراحة العين.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider"></span>
+                    </label>
                 </div>
-            </header>
-
-            <section class="settings-container">
-                <div class="settings-card">
-                    
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <h3>تفعيل الوضع الداكن (Dark Mode)</h3>
-                            <p>تغيير مظهر واجهة تطبيق مدار إلى ألوان مريحة للعين.</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="switch">
-                                <input type="checkbox" id="theme-toggle">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
+                <div class="setting-row">
+                    <div>
+                        <h3>تسجيل الخروج</h3>
+                        <p>الخروج الآمن من حسابك.</p>
                     </div>
-
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <h3>تنبيهات البريد الإلكتروني</h3>
-                            <p>استقبال إشعارات وتذكيرات يومية بالمهام القادمة.</p>
-                        </div>
-                        <div class="setting-action">
-                            <label class="switch">
-                                <input type="checkbox" id="emailNotificationsToggle" checked>
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <h3>تنظيف وضغط قاعدة البيانات</h3>
-                            <p>تحسين أداء وسرعة التطبيق.</p>
-                        </div>
-                        <div class="setting-action">
-                            <button type="button" class="btn-optimize" id="optimizeDbBtn">تحسين الآن</button>
-                        </div>
-                    </div>
-
-                    <div class="setting-row danger-zone">
-                        <div class="setting-info">
-                            <h3 class="text-danger">مسح جميع البيانات</h3>
-                            <p>حذف كافة المهام المسجلة نهائياً (لا يمكن التراجع).</p>
-                        </div>
-                        <div class="setting-action">
-                            <button type="button" class="btn-danger" id="clearDataBtn">مسح البيانات</button>
-                        </div>
-                    </div>
-
+                    <button id="logoutBtn" class="btn-danger">خروج</button>
                 </div>
-            </section>
+            </div>
         </main>
     </div>
-
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
