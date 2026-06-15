@@ -1,47 +1,22 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>مدار - الإعدادات</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+<html lang="ar" dir="rtl"><head><link rel="stylesheet" href="style.css"></head>
 <body class="hidden-app">
     <div class="app-container">
         <aside class="sidebar">
-            <h2>تطبيق مَدار</h2>
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-item">📊 نظرة عامة</a>
-                <a href="tasks.html" class="nav-item">📝 المهام</a>
-                <a href="calendar.html" class="nav-item">📅 التقويم</a>
-                <a href="settings.html" class="nav-item active">⚙️ الإعدادات</a>
-            </nav>
+            <h2>تطبيق مدار</h2>
+            <a href="index.html" class="nav-item">📊 نظرة عامة</a>
+            <a href="tasks.html" class="nav-item">📝 إدارة المهام</a>
+            <a href="calendar.html" class="nav-item">📅 التقويم</a>
+            <a href="settings.html" class="nav-item active">⚙️ الإعدادات</a>
         </aside>
         <main class="main-content">
-            <h1>إعدادات الحساب</h1>
-            <div class="settings-card">
-                <div class="setting-row">
-                    <div>
-                        <h3>الوضع الداكن</h3>
-                        <p>تفعيل الثيم المظلم لراحة العين.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="theme-toggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="setting-row">
-                    <div>
-                        <h3>تسجيل الخروج</h3>
-                        <p>الخروج الآمن من حسابك.</p>
-                    </div>
-                    <button id="logoutBtn" class="btn-danger">خروج</button>
-                </div>
-            </div>
+            <h1>الإعدادات</h1>
+            <button id="theme-toggle">تغيير الوضع الداكن</button>
+            <button id="logoutBtn">تسجيل الخروج</button>
         </main>
     </div>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="script.js"></script>
-</body>
-</html>
+</body></html>
