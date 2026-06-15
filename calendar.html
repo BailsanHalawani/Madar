@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مدار - جدول التسلسل الزمني</title>
+    <style>
+        body { display: none; }
+    </style>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,10 +33,10 @@
                     <span class="icon">⚙️</span> الإعدادات
                 </a>
             </nav>
-          <div class="user-profile">
-    <div class="avatar" id="userAvatar">M</div>
-    <div class="username" id="displayUsername">جاري التحميل...</div>
-</div>
+            <div class="user-profile">
+                <div class="avatar" id="userAvatar">M</div>
+                <div class="username" id="displayUsername">جاري التحميل...</div>
+            </div>
         </aside>
 
         <main class="main-content">
@@ -57,35 +60,17 @@
                             </tr>
                         </thead>
                         <tbody id="taskTableBody">
-                            <tr>
-                                <td class="task-date-cell">18 / 06 / 2026</td>
-                                <td class="task-name-cell">برمجة جافا سكربت للموقع</td>
-                                <td class="task-desc-cell">إنشاء كود ديناميكي لإضافة المهام وتفعيل الخيارات في الإعدادات.</td>
-                                <td><span class="badge priority-high">عالية</span></td>
-                                <td class="actions-cell">
-                                    <button class="btn-action edit-btn" title="تعديل">✏️</button>
-                                    <button class="btn-action delete-btn" title="حذف">❌</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="task-date-cell">22 / 06 / 2026</td>
-                                <td class="task-name-cell">تصميم واجهة لوحة التحكم الإضافية</td>
-                                <td class="task-desc-cell">تنسيق وتعديل درجات الألوان لتصبح مريحة وماثلة للبيج والبني.</td>
-                                <td><span class="badge priority-medium">متوسطة</span></td>
-                                <td class="actions-cell">
-                                    <button class="btn-action edit-btn" title="تعديل">✏️</button>
-                                    <button class="btn-action delete-btn" title="حذف">❌</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </section>
         </main>
     </div>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="script.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="script.js"></script>
 </body>
 </html>
