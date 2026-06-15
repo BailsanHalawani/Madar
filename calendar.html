@@ -2,49 +2,25 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مدار - جدول التسلسل الزمني</title>
-    <style>
-        body { display: none; }
-    </style>
+    <title>مدار - التقويم</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-
+<body class="hidden-app">
     <div class="app-container">
         <aside class="sidebar">
-            <div class="logo-section">
-                <h2>تطبيق مدار</h2>
-            </div>
+            <h2>تطبيق مَدار</h2>
             <nav class="nav-menu">
-                <a href="index.html" class="nav-item">
-                    <span class="icon">📊</span> نظرة عامة
-                </a>
-                <a href="tasks.html" class="nav-item">
-                    <span class="icon">📝</span> إدارة المهام
-                </a>
-                <a href="calendar.html" class="nav-item active">
-                    <span class="icon">📅</span> التقويم
-                </a>
-                <a href="settings.html" class="nav-item">
-                    <span class="icon">⚙️</span> الإعدادات
-                </a>
+                <a href="index.html" class="nav-item">📊 نظرة عامة</a>
+                <a href="tasks.html" class="nav-item">📝 المهام</a>
+                <a href="calendar.html" class="nav-item active">📅 التقويم</a>
+                <a href="settings.html" class="nav-item">⚙️ الإعدادات</a>
             </nav>
-            <div class="user-profile">
-                <div class="avatar" id="userAvatar">M</div>
-                <div class="username" id="displayUsername">جاري التحميل...</div>
-            </div>
         </aside>
-
+        
         <main class="main-content">
             <header class="main-header">
-                <div class="welcome-text">
-                    <h1>جدول التسلسل الزمني للمشاريع</h1>
-                    <p>استعراض شامل وجدول زمني لجميع المهام المدرجة ومواعيد تسليمها.</p>
-                </div>
+                <h1>تقويم المهام</h1>
+                <p>استعرضي مهامكِ المجدولة وتابعي مواعيد تسليمها.</p>
             </header>
 
             <section class="calendar-container">
@@ -54,7 +30,7 @@
                             <tr>
                                 <th>التاريخ</th>
                                 <th>اسم المهمة</th>
-                                <th>الملاحظات / الوصف</th>
+                                <th>الوصف</th>
                                 <th>الأولوية</th>
                                 <th>الإجراءات</th>
                             </tr>
@@ -70,7 +46,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    
     <script src="script.js"></script>
 </body>
 </html>
