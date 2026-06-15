@@ -577,3 +577,7 @@ body.dark-theme {
 body.dark-theme .sidebar {
     background-color: #111111;
 }
+/* هذا الكود يخفي كل شيء في الصفحة حتى يكتمل التحقق من الحساب */
+.hidden-app {
+    display: none !important;
+}
