@@ -3,104 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - نظرة عامة</title>
+    <title>لوحة التحكم - مدار</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* كود الإخفاء الآمن */
+        .hidden-app { display: none !important; }
+    </style>
 </head>
 <body class="hidden-app">
-    <!-- ضعي هذا الكود في الـ CSS الخاص بكِ لإخفاء كل شيء -->
-    <style>
-        .hidden-app { display: none; }
-    </style>
-    
-    <!-- باقي الكود كما هو -->
-    <div class="app-container"> ... </div>
 
     <div class="app-container">
         <aside class="sidebar">
-            <div class="logo-section">
-                <h2>إدارة المهام</h2>
-            </div>
+            <div class="logo-section"><h2>إدارة المهام</h2></div>
             <nav class="nav-menu">
-                <a href="index.html" class="nav-item active">
-                    <span class="icon">📊</span> نظرة عامة
-                </a>
-                <a href="tasks.html" class="nav-item">
-                    <span class="icon">📝</span> إدارة المهام
-                </a>
-                <a href="calendar.html" class="nav-item">
-                    <span class="icon">📅</span> التقويم
-                </a>
-                <a href="settings.html" class="nav-item">
-                    <span class="icon">⚙️</span> الإعدادات
-                </a>
+                <a href="index.html" class="nav-item active">📊 نظرة عامة</a>
+                <a href="tasks.html" class="nav-item">📝 إدارة المهام</a>
+                <a href="calendar.html" class="nav-item">📅 التقويم</a>
+                <a href="settings.html" class="nav-item">⚙️ الإعدادات</a>
             </nav>
-           <div class="user-profile">
-    <div class="avatar" id="userAvatar">M</div>
-    <div class="username" id="displayUsername">جاري التحميل...</div>
-</div>
+            <div class="user-profile">
+                <div class="avatar" id="userAvatar">M</div>
+                <div class="username" id="displayUsername">جاري التحميل...</div>
+            </div>
         </aside>
 
         <main class="main-content">
             <header class="main-header">
-                <div class="welcome-text">
-                    <h1>أهلاً بكِ في لوحة التحكم</h1>
-                    <p>تابعي مصفوفة مهامك اليومية ومشاريعك الحالية بصورة منظمة.</p>
-                </div>
+                <h1>أهلاً بكِ في لوحة التحكم</h1>
             </header>
-
             <section class="stats-grid">
-                <div class="stat-card total">
-                    <div class="stat-icon">📁</div>
-                    <div class="stat-info">
-                        <h3>المهام الكلية</h3>
-                        <p class="stat-number">12</p>
-                    </div>
-                </div>
-                <div class="stat-card completed">
-                    <div class="stat-icon">✅</div>
-                    <div class="stat-info">
-                        <h3>المهام المكتملة</h3>
-                        <p class="stat-number">8</p>
-                    </div>
-                </div>
-                <div class="stat-card delayed">
-                    <div class="stat-icon">⚠️</div>
-                    <div class="stat-info">
-                        <h3>المهام المتأخرة</h3>
-                        <p class="stat-number">2</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="recent-tasks-section">
-                <div class="section-header">
-                    <h2>⏳ المهام القادمة ذات الأولوية</h2>
-                </div>
-                <div class="task-list-mini">
-                    <div class="mini-task-item high-priority">
-                        <div class="task-meta">
-                            <span class="priority-dot high"></span>
-                            <span class="task-title">برمجة جافا سكربت للموقع</span>
-                        </div>
-                        <span class="task-date">18 / 06 / 2026</span>
-                    </div>
-                    <div class="mini-task-item med-priority">
-                        <div class="task-meta">
-                            <span class="priority-dot med"></span>
-                            <span class="task-title">تصميم واجهة لوحة التحكم الإضافية</span>
-                        </div>
-                        <span class="task-date">22 / 06 / 2026</span>
-                    </div>
-                </div>
+                <div class="stat-card"><h3>المهام الكلية</h3><p class="stat-number">0</p></div>
             </section>
         </main>
     </div>
-   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="script.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
