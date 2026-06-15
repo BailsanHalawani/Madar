@@ -305,3 +305,31 @@ function switchPage(pageId) {
         activeSection.style.opacity = 1;
     }, 10);
 }
+// الانتظار حتى تحميل الصفحة بالكامل لتفادي أخطاء الـ null
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. تحديد زر التبديل (تأكدي أن الـ id في الـ HTML هو theme-toggle أو عدليه هنا)
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    
+    // 2. التحقق من الاختيار المخزن مسبقاً في المتصفح وتطبيقه فوراً
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+
+    // 3. الاستماع لضغطة الزر وتبديل الوضع
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            // تبديل الـ class في الـ body
+            document.body.classList.toggle('dark-theme');
+            
+            // حفظ الخيار الحالي في الـ LocalStorage للاحتفاظ به عند الانتقال بين الصفحات
+            if (document.body.classList.contains('dark-theme')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    } else {
+        console.warn("تنبيه: لم يتم العثور على عنصر يحمل id='theme-toggle' في هذه الصفحة.");
+    }
+});
