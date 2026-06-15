@@ -1,59 +1,16 @@
-/* ==========================================================================
-   تطبيق مَدار (Madar) - ملف التنسيق الموحد والمطور
-   ========================================================================== */
-
-/* 1. الإخفاء الآمن لمنع الشاشة البيضاء */
+/* style.css */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+body { background-color: #fcfaf6; color: #3e3229; min-height: 100vh; transition: 0.3s; }
 .hidden-app { display: none !important; }
 
-/* 2. التهيئة العامة */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-
-:root {
-    --bg-main: #fcfaf6;
-    --bg-sidebar: #f3ede2;
-    --white: #ffffff;
-    --accent-brown: #6e5a4b;
-    --accent-hover: #58483c;
-    --text-main: #3e3229;
-    --text-muted: #8a7667;
-    --border-color: #eee7dc;
-}
-
-body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; transition: background-color 0.3s, color 0.3s; }
-
-/* --- 3. الوضع الداكن (Dark Theme) --- */
-body.dark-version {
-    --bg-main: #1a1a1a;
-    --bg-sidebar: #111111;
-    --white: #252525;
-    --accent-brown: #d4b499;
-    --text-main: #e0e0e0;
-    --text-muted: #a0a0a0;
-    --border-color: #333333;
-}
-
-body.dark-version .nav-item { color: #ccc; }
-body.dark-version .stat-card, body.dark-version .recent-tasks-section, 
-body.dark-version .form-container, body.dark-version .settings-card { background-color: #252525; border-color: #333; }
-
-/* --- 4. الهيكل العام --- */
 .app-container { display: flex; min-height: 100vh; }
-.sidebar { width: 260px; background-color: var(--bg-sidebar); padding: 35px 20px; display: flex; flex-direction: column; border-left: 1px solid var(--border-color); }
-.nav-menu { display: flex; flex-direction: column; gap: 12px; flex-grow: 1; }
-.nav-item { display: flex; align-items: center; gap: 15px; padding: 14px 18px; color: var(--text-main); text-decoration: none; font-weight: 600; border-radius: 12px; transition: 0.3s; }
-.nav-item.active { background-color: var(--accent-brown); color: #fff; }
-.main-content { flex-grow: 1; padding: 40px 50px; }
+.sidebar { width: 260px; background-color: #f3ede2; padding: 30px; border-left: 1px solid #eee7dc; }
+.nav-menu { display: flex; flex-direction: column; gap: 15px; margin-top: 40px; }
+.nav-item { padding: 12px; color: #3e3229; text-decoration: none; font-weight: 600; border-radius: 10px; transition: 0.3s; }
+.nav-item.active { background-color: #6e5a4b; color: #fff; }
+.main-content { flex-grow: 1; padding: 50px; }
 
-/* --- 5. العناصر التفاعلية --- */
-.stat-card { background-color: var(--white); border: 1px solid var(--border-color); border-radius: 18px; padding: 26px; }
-.form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); }
-.btn-submit { width: 100%; padding: 16px; background-color: var(--accent-brown); color: #fff; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
-
-/* --- 6. التجاوب (Responsive) --- */
-@media (max-width: 768px) {
-    .app-container { flex-direction: column; }
-    .sidebar { width: 100%; border-left: none; border-bottom: 1px solid var(--border-color); }
-    .main-content { padding: 20px; }
-}
-
-/* تنبيه: تأكدي أن ملفاتك مرتبطة بـ style.css بشكل صحيح */
+/* تنسيق بسيط لنموذج الدخول */
+.auth-box { max-width: 400px; margin: 100px auto; padding: 40px; background: white; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #eee; border-radius: 8px; }
+button { width: 100%; padding: 12px; background: #6e5a4b; color: white; border: none; border-radius: 8px; cursor: pointer; }
