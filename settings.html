@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تطبيق مدار - الإعدادات</title>
+    <style>
+        body { display: none; }
+    </style>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,16 +33,16 @@
                     <span class="icon">⚙️</span> الإعدادات
                 </a>
             </nav>
-          <div class="user-profile">
-    <div class="avatar" id="userAvatar">M</div>
-    <div class="username" id="displayUsername">جاري التحميل...</div>
-</div>
+            <div class="user-profile">
+                <div class="avatar" id="userAvatar">M</div>
+                <div class="username" id="displayUsername">جاري التحميل...</div>
+            </div>
         </aside>
 
         <main class="main-content">
             <header class="main-header">
                 <div class="welcome-text">
-                    <h1>إعدادات التطبيق لوحة التحكم</h1>
+                    <h1>إعدادات التطبيق</h1>
                     <p>تخصيص مظهر التطبيق، التنبيهات، وإدارة قواعد البيانات الخاصة بكِ.</p>
                 </div>
             </header>
@@ -50,7 +53,7 @@
                     <div class="setting-row">
                         <div class="setting-info">
                             <h3>تفعيل الوضع الداكن (Dark Mode)</h3>
-                            <p>تغيير مظهر واجهة تطبيق مدار إلى ألوان مريحة للعين في البيئات المظلمة.</p>
+                            <p>تغيير مظهر واجهة تطبيق مدار إلى ألوان مريحة للعين.</p>
                         </div>
                         <div class="setting-action">
                             <label class="switch">
@@ -63,7 +66,7 @@
                     <div class="setting-row">
                         <div class="setting-info">
                             <h3>تنبيهات البريد الإلكتروني</h3>
-                            <p>استقبال إشعارات وتذكيرات يومية بالمهام القادمة والمتأخرة عبر بريدكِ.</p>
+                            <p>استقبال إشعارات وتذكيرات يومية بالمهام القادمة.</p>
                         </div>
                         <div class="setting-action">
                             <label class="switch">
@@ -76,7 +79,7 @@
                     <div class="setting-row">
                         <div class="setting-info">
                             <h3>تنظيف وضغط قاعدة البيانات</h3>
-                            <p>تحسين أداء وسرعة التطبيق من خلال ترتيب وتنظيم ملفات التخزين المحلية.</p>
+                            <p>تحسين أداء وسرعة التطبيق.</p>
                         </div>
                         <div class="setting-action">
                             <button type="button" class="btn-optimize" id="optimizeDbBtn">تحسين الآن</button>
@@ -86,7 +89,7 @@
                     <div class="setting-row danger-zone">
                         <div class="setting-info">
                             <h3 class="text-danger">مسح جميع البيانات</h3>
-                            <p>حذف كافة المهام المسجلة، التقويم، والإعدادات بشكل نهائي (لا يمكن التراجع عن هذا الإجراء).</p>
+                            <p>حذف كافة المهام المسجلة نهائياً (لا يمكن التراجع).</p>
                         </div>
                         <div class="setting-action">
                             <button type="button" class="btn-danger" id="clearDataBtn">مسح البيانات</button>
@@ -97,9 +100,10 @@
             </section>
         </main>
     </div>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="script.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
