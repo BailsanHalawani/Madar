@@ -26,26 +26,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentPath = window.location.pathname;
     const isAuthPage = currentPath.includes('auth.html');
 auth.onAuthStateChanged((user) => {
-        if (!user && !isAuthPage) {
-            window.location.href = 'auth.html';
-            return;
-        }
-
-        if (user && isAuthPage) {
-            window.location.href = 'index.html';
-            return;
-        }
+        const currentPath = window.location.pathname;
+        const isAuthPage = currentPath.includes('auth.html');
 
         if (user) {
+            // إذا كان المستخدم مسجلاً
+            if (isAuthPage) {
+                window.location.href = 'index.html'; // إذا في صفحة التسجيل، اذهب للرئيسية
+            }
+            // إذا كان في الرئيسية، أكمل عملك (جلب البيانات)
             const displayUserEl = document.getElementById('displayUsername');
             const avatarEl = document.getElementById('userAvatar');
-            
-            const username = user.displayName || user.email.split('@')[0];
-            
-            if (displayUserEl) displayUserEl.textContent = username;
-            if (avatarEl) avatarEl.textContent = username.charAt(0).toUpperCase();
-
+            if (displayUserEl) displayUserEl.textContent = user.displayName || user.email.split('@')[0];
             fetchUserTasks(user.uid);
+        } else {
+            // إذا لم يكن المستخدم مسجلاً
+            if (!isAuthPage) {
+                window.location.href = 'auth.html'; // إذا ليس في صفحة التسجيل، اذهب إليها
+            }
         }
     });
  
