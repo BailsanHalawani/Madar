@@ -2,40 +2,87 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدار - جدول التسلسل الزمني</title>
     <link rel="stylesheet" href="style.css">
-    <title>مدار - التقويم</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="hidden-app">
+<body>
+
     <div class="app-container">
         <aside class="sidebar">
-            <h2>تطبيق مدار</h2>
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-item">📊 نظرة عامة</a>
-                <a href="tasks.html" class="nav-item">📝 إدارة المهام</a>
-                <a href="calendar.html" class="nav-item active">📅 التقويم</a>
-                <a href="settings.html" class="nav-item">⚙️ الإعدادات</a>
-            </nav>
-        </aside>
-        <main class="main-content">
-            <h1>جدول المهام الزمني</h1>
-            <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>التاريخ</th>
-                            <th>المهمة</th>
-                            <th>الحالة</th>
-                        </tr>
-                    </thead>
-                    <tbody id="calendarTableBody">
-                        </tbody>
-                </table>
+            <div class="logo-section">
+                <h2>تطبيق مدار</h2>
             </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item">
+                    <span class="icon">📊</span> نظرة عامة
+                </a>
+                <a href="tasks.html" class="nav-item">
+                    <span class="icon">📝</span> إدارة المهام
+                </a>
+                <a href="calendar.html" class="nav-item active">
+                    <span class="icon">📅</span> التقويم
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span class="icon">⚙️</span> الإعدادات
+                </a>
+            </nav>
+          <div class="user-profile">
+    <div class="avatar" id="userAvatar">M</div>
+    <div class="username" id="displayUsername">جاري التحميل...</div>
+</div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="welcome-text">
+                    <h1>جدول التسلسل الزمني للمشاريع</h1>
+                    <p>استعراض شامل وجدول زمني لجميع المهام المدرجة ومواعيد تسليمها.</p>
+                </div>
+            </header>
+
+            <section class="calendar-container">
+                <div class="table-responsive">
+                    <table class="project-table">
+                        <thead>
+                            <tr>
+                                <th>التاريخ</th>
+                                <th>اسم المهمة</th>
+                                <th>الملاحظات / الوصف</th>
+                                <th>الأولوية</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taskTableBody">
+                            <tr>
+                                <td class="task-date-cell">18 / 06 / 2026</td>
+                                <td class="task-name-cell">برمجة جافا سكربت للموقع</td>
+                                <td class="task-desc-cell">إنشاء كود ديناميكي لإضافة المهام وتفعيل الخيارات في الإعدادات.</td>
+                                <td><span class="badge priority-high">عالية</span></td>
+                                <td class="actions-cell">
+                                    <button class="btn-action edit-btn" title="تعديل">✏️</button>
+                                    <button class="btn-action delete-btn" title="حذف">❌</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="task-date-cell">22 / 06 / 2026</td>
+                                <td class="task-name-cell">تصميم واجهة لوحة التحكم الإضافية</td>
+                                <td class="task-desc-cell">تنسيق وتعديل درجات الألوان لتصبح مريحة وماثلة للبيج والبني.</td>
+                                <td><span class="badge priority-medium">متوسطة</span></td>
+                                <td class="actions-cell">
+                                    <button class="btn-action edit-btn" title="تعديل">✏️</button>
+                                    <button class="btn-action delete-btn" title="حذف">❌</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </main>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
