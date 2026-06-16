@@ -1,12 +1,579 @@
-:root { --bg: #fcfaf6; --sidebar: #f3ede2; --text: #3e3229; --accent: #6e5a4b; }
-body.dark-mode { --bg: #1a1a1a; --sidebar: #111111; --text: #f5f5f5; }
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-body { background-color: var(--bg); color: var(--text); min-height: 100vh; }
-.app-container { display: flex; min-height: 100vh; }
-.sidebar { width: 260px; background-color: var(--sidebar); padding: 30px; }
-.main-content { flex-grow: 1; padding: 40px; }
-.nav-item { display: block; padding: 12px; margin-bottom: 10px; color: var(--text); text-decoration: none; border-radius: 8px; }
-.nav-item.active { background-color: var(--accent); color: white; }
-.card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; }
-.hidden-app { display: none !important; }
+/* ==========================================================================
+   تطبيق مَدار (Madar Task Management) - ملف التنسيق الموحد والشامل الشامل
+   ========================================================================== */
+
+/* إعدادات الخطوط والتهيئة العامة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+:root {
+    /* لوحة الألوان البيجية والبنية الهادئة والأنيقة */
+    --bg-main: #fcfaf6;            /* بيج ناعم جداً للخلفية الأساسية للموقع */
+    --bg-sidebar: #f3ede2;         /* بيج دافئ مميز للقائمة الجانبية */
+    --white: #ffffff;              /* أبيض ناصع لخلفيات البطاقات والتقويم والـ Forms */
+    
+    /* درجات البني الاحترافية */
+    --accent-brown: #6e5a4b;       /* بني دافئ غني للعناصر النشطة والأزرار والنصوص الرئيسية */
+    --accent-hover: #58483c;       /* درجة أغمق قليلاً لتأثيرات الـ Hover */
+    --accent-light-brown: #a89485; /* بني ناعم متناسق */
+    
+    /* ألوان النصوص والحدود */
+    --text-main: #3e3229;          /* بني داكن جداً (بديل الأسود) لراحة تامة للعين */
+    --text-muted: #8a7667;         /* بني رمادي خفيف للنصوص الثانوية والتواريخ */
+    --border-color: #eee7dc;       /* لون الحدود الفاصلة مريح ومتناسق مع البيج */
+    
+    /* ألوان دلالية للأولويات والإجراءات الخطيرة */
+    --priority-high: #c2593f;      /* أحمر طوبي هادئ للأولويات العالية */
+    --priority-medium: #d49a46;    /* خردلي دافئ للأولويات المتوسطة */
+    --priority-low: #738c71;       /* أخضر زيتوني ناعم للأولويات المنخفضة */
+    --danger-bg: #ba4a4a;          /* أحمر دافئ لزر مسح البيانات */
+    --danger-hover: #9c3c3c;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   1. الهيكل العام ونظام التوزيع (Layout & Sidebar)
+   ========================================================================== */
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* القائمة الجانبية (Sidebar) */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-sidebar);
+    padding: 35px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 1px solid #e7dfd3;
+    flex-shrink: 0;
+}
+
+.logo-section h2 {
+    color: var(--accent-brown);
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 0.5px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 14px 18px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 12px;
+    transition: all 0.25s ease-in-out;
+}
+
+.nav-item:hover {
+    background-color: rgba(110, 90, 75, 0.08);
+    color: var(--accent-brown);
+}
+
+.nav-item.active {
+    background-color: var(--accent-brown);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(110, 90, 75, 0.15);
+}
+
+.nav-item .icon {
+    font-size: 18px;
+}
+
+/* حساب المستخدم (User Profile Section) */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 20px;
+    border-top: 1px solid #e7dfd3;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    background-color: var(--accent-brown);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 2px 6px rgba(110, 90, 75, 0.1);
+}
+
+.username {
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+/* المحتوى الرئيسي (Main Content Area) */
+.main-content {
+    flex-grow: 1;
+    padding: 40px 50px;
+    max-width: 1250px;
+    width: 100%;
+}
+
+.main-header {
+    margin-bottom: 40px;
+}
+
+.main-header h1 {
+    font-size: 28px;
+    color: var(--accent-brown);
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.main-header p {
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+/* ==========================================================================
+   2. تنسيقات الصفحة الأولى: نظرة عامة (Dashboard)
+   ========================================================================== */
+
+.stats-grid {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 260px;
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 26px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    box-shadow: 0 4px 16px rgba(110, 90, 75, 0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(110, 90, 75, 0.05);
+}
+
+.stat-icon {
+    font-size: 30px;
+    width: 64px;
+    height: 64px;
+    background-color: var(--bg-main);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-info h3 {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.stat-number {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--accent-brown);
+    line-height: 1;
+}
+
+.recent-tasks-section {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 4px 16px rgba(110, 90, 75, 0.02);
+}
+
+.section-header h2 {
+    font-size: 19px;
+    color: var(--accent-brown);
+    margin-bottom: 22px;
+    font-weight: 700;
+}
+
+.task-list-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mini-task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 22px;
+    background-color: var(--bg-main);
+    border-radius: 14px;
+    border-right: 5px solid transparent;
+    transition: background-color 0.2s;
+}
+
+.mini-task-item:hover {
+    background-color: #f5f0e6;
+}
+
+.mini-task-item.high-priority { border-right-color: var(--priority-high); }
+.mini-task-item.medium-priority { border-right-color: var(--priority-medium); }
+.mini-task-item.low-priority { border-right-color: var(--priority-low); }
+
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.priority-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.priority-dot.high { background-color: var(--priority-high); }
+.priority-dot.medium { background-color: var(--priority-medium); }
+.priority-dot.low { background-color: var(--priority-low); }
+
+.task-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-main);
+}
+
+.task-date {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   3. تنسيقات النماذج والجدول (Forms & Table)
+   ========================================================================== */
+
+.form-container {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 35px;
+    max-width: 800px;
+    box-shadow: 0 4px 20px rgba(110, 90, 75, 0.02);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-main);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 14px 18px;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-main);
+    font-size: 15px;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--accent-light-brown);
+    background-color: var(--white);
+    box-shadow: 0 0 0 4px rgba(110, 90, 75, 0.05);
+}
+
+::placeholder {
+    color: #a39081;
+    font-size: 14.5px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 16px;
+    background-color: var(--accent-brown);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 12px rgba(110, 90, 75, 0.15);
+}
+
+.btn-submit:hover {
+    background-color: var(--accent-hover);
+}
+
+.calendar-container {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(110, 90, 75, 0.02);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.project-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+.project-table th {
+    background-color: var(--bg-main);
+    color: var(--accent-brown);
+    padding: 16px 20px;
+    font-weight: 700;
+    font-size: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.project-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 14.5px;
+}
+
+.project-table tbody tr:hover {
+    background-color: rgba(243, 237, 226, 0.3);
+}
+
+.task-date-cell {
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.task-name-cell {
+    font-weight: 700;
+    color: var(--accent-brown);
+}
+
+.task-desc-cell {
+    color: var(--text-muted);
+    max-width: 400px;
+    line-height: 1.6;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.badge.priority-high { background-color: rgba(194, 89, 63, 0.12); color: var(--priority-high); }
+.badge.priority-medium { background-color: rgba(214, 154, 70, 0.12); color: var(--priority-medium); }
+.badge.priority-low { background-color: rgba(115, 140, 113, 0.12); color: var(--priority-low); }
+
+.btn-action {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px;
+    margin: 0 4px;
+    border-radius: 8px;
+}
+
+/* ==========================================================================
+   4. الإعدادات والتحكم (Settings & Toggles)
+   ========================================================================== */
+
+.settings-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 30px;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.setting-info h3 { font-size: 16px; font-weight: 700; }
+.setting-info p { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; }
+
+.switch { position: relative; display: inline-block; width: 52px; height: 28px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ded6c9; transition: .3s; border-radius: 34px; }
+.slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: var(--white); transition: .3s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--accent-brown); }
+input:checked + .slider:before { transform: translateX(24px); }
+
+.btn-optimize {
+    padding: 10px 20px;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--accent-brown);
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.danger-zone { background-color: rgba(186, 74, 74, 0.02); margin: 10px -30px 0 -30px; padding: 28px 30px; border-radius: 0 0 20px 20px; border-top: 1px dashed rgba(186, 74, 74, 0.2); }
+.text-danger { color: var(--danger-bg); }
+.btn-danger { padding: 12px 24px; background-color: var(--danger-bg); color: var(--white); border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+
+/* ==========================================================================
+   🆕 5. التنسيق الجديد الخاص بصفحة الحسابات الذكية (Auth Page Style)
+   ========================================================================== */
+
+.auth-body {
+    background-color: var(--bg-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 480px;
+}
+
+.auth-box {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(110, 90, 75, 0.04);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.auth-header h1 {
+    font-size: 24px;
+    color: var(--accent-brown);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.auth-header p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+.auth-footer a {
+    color: var(--accent-brown);
+    text-decoration: none;
+    font-weight: 700;
+    margin-right: 5px;
+    transition: color 0.2s;
+}
+
+.auth-footer a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   6. دعم التجاوب الكامل والـ Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .app-container { flex-direction: column; }
+    .sidebar { width: 100%; padding: 20px; border-left: none; border-bottom: 1px solid var(--border-color); }
+    .logo-section h2 { margin-bottom: 15px; }
+    .nav-menu { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .user-profile { display: none; }
+    .main-content { padding: 20px; }
+    .setting-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .setting-action { align-self: flex-end; }
+    .auth-box { padding: 30px 20px; }
+}
+/* يوضع في ملف الـ CSS لتنعيم أي تغييرات بصرية أثناء التنقل */
+.nav-item, .btn-submit, .stat-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* الألوان الافتراضية للوضع الفاتح */
+body {
+    background-color: #ffffff;
+    color: #333333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* الألوان التي ستطبق تلقائياً عند تفعيل الوضع الداكن بالجافا سكريبت */
+body.dark-theme {
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+}
+
+/* يمكنك إضافة أي عنصر آخر تريدين تغيير لونه في الوضع الداكن هنا، مثل: */
+body.dark-theme .sidebar {
+    background-color: #111111;
+}
